@@ -1,0 +1,1 @@
+Get the file from the https://github.com/Yoti/hactool/releases/download/v1.4.1-uo2/hactool_ms32_gw32.exe as hactool.exe
