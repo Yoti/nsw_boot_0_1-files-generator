@@ -1,6 +1,6 @@
 @echo off
-title Recreate boot partitions script by Yoti (v20250508)
-echo Recreate boot partitions script by Yoti (v20250508)
+title Recreate boot partitions script by Yoti (v20250731)
+echo Recreate boot partitions script by Yoti (v20250731)
 
 if not exist hactool.exe goto hactoolexe
 if not exist hextool.exe goto hextoolexe
@@ -19,18 +19,19 @@ for /d %%d in (??.?.?) do (
 				..\hactool.exe -x -k ..\prod.keys --disablekeywarns -t nca --romfsdir=1_%%~ni %%i >nul
 
 				if exist BOOT0_ERISTA del /q BOOT0_ERISTA
-				..\hextool.exe new $400000 %cd%\%%d\BOOT0_ERISTA >nul
-				..\hextool.exe insert 0 1_%%~ni\nx\bct %cd%\%%d\BOOT0_ERISTA >nul
-				..\hextool.exe insert $8000 1_%%~ni\nx\bct %cd%\%%d\BOOT0_ERISTA >nul
-				..\hextool.exe insert $100000 1_%%~ni\nx\package1 %cd%\%%d\BOOT0_ERISTA >nul
-				..\hextool.exe insert $140000 1_%%~ni\nx\package1 %cd%\%%d\BOOT0_ERISTA >nul
+rem				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x400000
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x200000
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x0 1_%%~ni\nx\bct
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x8000 1_%%~ni\nx\bct
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x100000 1_%%~ni\nx\package1
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x140000 1_%%~ni\nx\package1
 
 				if exist BOOT0_MARIKO del /q BOOT0_MARIKO
-				..\hextool.exe new $400000 %cd%\%%d\BOOT0_MARIKO >nul
-				..\hextool.exe insert 0 1_%%~ni\a\bct %cd%\%%d\BOOT0_MARIKO >nul
-				..\hextool.exe insert $8000 1_%%~ni\a\bct %cd%\%%d\BOOT0_MARIKO >nul
-				..\hextool.exe insert $100000 1_%%~ni\a\package1 %cd%\%%d\BOOT0_MARIKO >nul
-				..\hextool.exe insert $140000 1_%%~ni\a\package1 %cd%\%%d\BOOT0_MARIKO >nul
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x400000
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x0 1_%%~ni\a\bct
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x8000 1_%%~ni\a\bct
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x100000 1_%%~ni\a\package1
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x140000 1_%%~ni\a\package1
 
 				if exist 1_%%~ni rd /s /q 1_%%~ni
 			)
@@ -44,21 +45,21 @@ for /d %%d in (??.?.?) do (
 				if exist 2_%%~ni rd /s /q 2_%%~ni
 				..\hactool.exe -x -k ..\prod.keys --disablekeywarns -t nca --romfsdir=2_%%~ni %%i >nul
 
-				..\hextool.exe insert $4000 2_%%~ni\nx\bct %cd%\%%d\BOOT0_ERISTA >nul
-				..\hextool.exe insert $C000 2_%%~ni\nx\bct %cd%\%%d\BOOT0_ERISTA >nul
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0x4000 2_%%~ni\nx\bct
+				..\hextool.exe %cd%\%%d\BOOT0_ERISTA 0xC000 2_%%~ni\nx\bct
 
-				..\hextool.exe insert $4000 2_%%~ni\a\bct %cd%\%%d\BOOT0_MARIKO >nul
-				..\hextool.exe insert $C000 2_%%~ni\a\bct %cd%\%%d\BOOT0_MARIKO >nul
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0x4000 2_%%~ni\a\bct
+				..\hextool.exe %cd%\%%d\BOOT0_MARIKO 0xC000 2_%%~ni\a\bct
 
 				if exist BOOT1_ERISTA del /q BOOT1_ERISTA
-				..\hextool.exe new $400000 %cd%\%%d\BOOT1_ERISTA >nul
-				..\hextool.exe insert 0 2_%%~ni\nx\package1 %cd%\%%d\BOOT1_ERISTA >nul
-				..\hextool.exe insert $40000 2_%%~ni\nx\package1 %cd%\%%d\BOOT1_ERISTA >nul
+				..\hextool.exe %cd%\%%d\BOOT1_ERISTA 0x400000
+				..\hextool.exe %cd%\%%d\BOOT1_ERISTA 0x0 2_%%~ni\nx\package1
+				..\hextool.exe %cd%\%%d\BOOT1_ERISTA 0x40000 2_%%~ni\nx\package1
 
 				if exist BOOT1_MARIKO del /q BOOT1_MARIKO
-				..\hextool.exe new $400000 %cd%\%%d\BOOT1_MARIKO >nul
-				..\hextool.exe insert 0 2_%%~ni\a\package1 %cd%\%%d\BOOT1_MARIKO >nul
-				..\hextool.exe insert $40000 2_%%~ni\a\package1 %cd%\%%d\BOOT1_MARIKO >nul
+				..\hextool.exe %cd%\%%d\BOOT1_MARIKO 0x400000
+				..\hextool.exe %cd%\%%d\BOOT1_MARIKO 0x0 2_%%~ni\a\package1
+				..\hextool.exe %cd%\%%d\BOOT1_MARIKO 0x40000 2_%%~ni\a\package1
 
 				if exist 2_%%~ni rd /s /q 2_%%~ni
 			)
